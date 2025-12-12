@@ -1,12 +1,11 @@
 using UnityEngine;
-using System; 
+using System;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Waypoints")]
-    public Transform mixerPoint;    
-    public Transform customerPoint; 
-    public Transform idlePoint;   
+    public Transform idlePoint;
 
     [Header("Settings")]
     public float moveSpeed = 5f;
@@ -14,100 +13,58 @@ public class PlayerController : MonoBehaviour
     [Header("UI")]
     public SimpleProgressBar timeBar;
 
-    // Variables internes (ne touche pas)
-    private Transform currentTarget;
-    private Action onArrivedCallback;
-    private bool isMoving = false;
-    private float waitTimer = 0f;
-    private bool isWaiting = false;
 
-    void Update()
+    public void GoToSpecificPosition(Transform target, Action onArrived)
     {
-        if (isMoving && currentTarget != null)
-        {
-            MoveCharacter();
-        }
-        else if (isWaiting)
-        {
-            waitTimer -= Time.deltaTime;
-            if (waitTimer <= 0)
-            {
-                StopWaiting();
-            }
-        }
-    }
-
-    void MoveCharacter()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, currentTarget.position) < 0.01f)
-        {
-            StopMoving();
-        }
-    }
-
-    void StopMoving()
-    {
-        isMoving = false;
-        currentTarget = null;
-
-        if (onArrivedCallback != null)
-        {
-            Action tempAction = onArrivedCallback;
-            onArrivedCallback = null;
-            tempAction.Invoke();   
-        }
-    }
-
-
-    public void GoToMixer(Action onArrived)
-    {
-        currentTarget = mixerPoint;
-        onArrivedCallback = onArrived;
-        isMoving = true;
-    }
-
-    public void GoToCustomer(Action onArrived)
-    {
-        currentTarget = customerPoint;
-        onArrivedCallback = onArrived;
-        isMoving = true;
-    }
-    public void GoToSpecificPosition(Transform targetPosition, Action onArrived)
-    {
-        currentTarget = targetPosition;
-        onArrivedCallback = onArrived;
-        isMoving = true;
+        StopAllCoroutines();
+        StartCoroutine(MoveOrthogonalRoutine(target.position, onArrived));
     }
 
     public void GoToIdle()
     {
-        currentTarget = idlePoint;
-        onArrivedCallback = null;
-        isMoving = true;
+        if (idlePoint != null)
+        {
+            GoToSpecificPosition(idlePoint, null);
+        }
+    }
+
+    IEnumerator MoveOrthogonalRoutine(Vector3 targetPos, Action callback)
+    {
+        targetPos.z = transform.position.z;
+
+        Vector3 cornerPoint = new Vector3(targetPos.x, transform.position.y, transform.position.z);
+
+        while (Vector3.Distance(transform.position, cornerPoint) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, cornerPoint, moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        while (Vector3.Distance(transform.position, targetPos) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        transform.position = targetPos;
+
+        callback?.Invoke();
     }
 
     public void Wait(float duration, Action onFinished)
     {
-        waitTimer = duration;
-        onArrivedCallback = onFinished;
-        isWaiting = true;
+        StartCoroutine(WaitRoutine(duration, onFinished));
+    }
 
+    IEnumerator WaitRoutine(float duration, Action onFinished)
+    {
         if (timeBar != null)
         {
             timeBar.StartTimer(duration);
         }
-    }
 
-    void StopWaiting()
-    {
-        isWaiting = false;
-        if (onArrivedCallback != null)
-        {
-            Action temp = onArrivedCallback;
-            onArrivedCallback = null;
-            temp.Invoke();
-        }
+        yield return new WaitForSeconds(duration);
+
+        onFinished?.Invoke();
     }
 }

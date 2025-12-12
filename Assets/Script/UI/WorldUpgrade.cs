@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class WorldUpgrade : MonoBehaviour
 {
@@ -7,8 +8,10 @@ public class WorldUpgrade : MonoBehaviour
     public float price = 500f;
     public string productName = "Machine";
 
+    public string uniqueID;
+
     [Header("Recipe Unlock")]
-    public bool unlockRecipe = false; 
+    public bool unlockRecipe = false;
     public ProductType recipeType;
 
     [Header("References")]
@@ -18,40 +21,60 @@ public class WorldUpgrade : MonoBehaviour
 
     void Start()
     {
-        if (priceText != null)
+        if (priceText != null) priceText.text = productName + "\n" + price.ToString() + " $";
+
+        if (SaveManager.instance != null && SaveManager.instance.data != null)
         {
-            priceText.text = productName + "\n" + price.ToString() + " $";
+            CheckIfAlreadyBought();
         }
     }
 
-    public void Buy()
+    void CheckIfAlreadyBought()
+    {
+        if (SaveManager.instance != null)
+        {
+            if (SaveManager.instance.data.unlockedItems.Contains(uniqueID))
+            {
+                UnlockContent();
+
+                if (buyPanel != null) buyPanel.SetActive(false);
+            }
+        }
+    }
+
+    public void Buy() 
     {
         if (GameManager.instance.currentMoney >= price)
         {
             GameManager.instance.GenerateMoney(-price);
-            
-            if (objectInSold != null)
-            {
-                objectInSold.SetActive(true);
-            }
 
-            if (unlockRecipe)
+            UnlockContent();
+
+            if (SaveManager.instance != null)
             {
-                StageLogic logic = FindFirstObjectByType<StageLogic>();
-                if (logic != null)
+                if (!SaveManager.instance.data.unlockedItems.Contains(uniqueID))
                 {
-                    logic.UnlockProduct(recipeType);
+                    SaveManager.instance.data.unlockedItems.Add(uniqueID);
+                    SaveManager.instance.Save(); 
                 }
             }
 
-            if (buyPanel != null)
-            {
-                buyPanel.SetActive(false);
-            }
+            if (buyPanel != null) buyPanel.SetActive(false);
         }
         else
         {
             Debug.Log("Pas assez d'argent !");
+        }
+    }
+
+    void UnlockContent()
+    {
+        if (objectInSold != null) objectInSold.SetActive(true);
+
+        if (unlockRecipe)
+        {
+            StageLogic logic = FindFirstObjectByType<StageLogic>();
+            if (logic != null) logic.UnlockProduct(recipeType);
         }
     }
 }

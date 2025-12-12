@@ -17,6 +17,119 @@ public class StageLogic : MonoBehaviour
     [Header("WorkStation")]
     public WorkStation[] mixers;
 
+    [Header("Upgrade Level Limits")]
+    public int maxTables = 6; 
+    public int maxWorkers = 1;
+
+    IEnumerator Start()
+    {
+        yield return new WaitUntil(() => SaveManager.instance != null);
+        yield return null;
+
+        RestoreLevelObjects();
+
+        SyncRecipesWithSave();
+    }
+
+    void SyncRecipesWithSave()
+    {
+        foreach (Recipe r in menu)
+        {
+            if (r.type == ProductType.Limonade) r.isUnlocked = true;
+            else r.isUnlocked = false;
+        }
+
+        if (SaveManager.instance.data.unlockedItems != null)
+        {
+            foreach (string id in SaveManager.instance.data.unlockedItems)
+            {
+                if (id.Contains("Orange")) UnlockProduct(ProductType.Orange);
+            }
+        }
+    }
+
+    void RestoreLevelObjects()
+    {
+        if (SaveManager.instance == null || SaveManager.instance.data == null) return;
+
+        string tableKey = "Lvl" + levelID + "_TABLE";
+        string workerKey = "Lvl" + levelID + "_WORKER";
+
+        bool tableFound = false;
+        foreach (UpgradeSave item in SaveManager.instance.data.upgrades)
+        {
+            if (item.id == tableKey)
+            {
+                SetActiveTables(item.count);
+                tableFound = true;
+                break;
+            }
+        }
+
+        if (!tableFound)
+        {
+            SetActiveTables(0);
+            Debug.Log("Aucune save table trouvée -> Chargement par défaut (1)");
+        }
+
+        bool workerFound = false;
+        foreach (UpgradeSave item in SaveManager.instance.data.upgrades)
+        {
+            if (item.id == workerKey)
+            {
+                SetActiveWorkers(item.count);
+                workerFound = true;
+                break;
+            }
+        }
+
+        if (!workerFound)
+        {
+            SetActiveWorkers(0);
+            Debug.Log("Aucune save worker trouvée -> Chargement par défaut (0)");
+        }
+    }
+
+    void SetActiveTables(int targetCount)
+    {
+        CustomerSpawner spawner = FindFirstObjectByType<CustomerSpawner>();
+        if (spawner != null)
+        {
+            int current = 0;
+            foreach (Transform child in spawner.transform)
+                if (child.gameObject.activeSelf) current++;
+
+            int missing = targetCount - current;
+            for (int i = 0; i < missing; i++)
+            {
+                spawner.IncreaseCapacity();
+            }
+        }
+    }
+
+    void SetActiveWorkers(int targetCount)
+    {
+        AIWorker[] activeWorkers = FindObjectsByType<AIWorker>(FindObjectsSortMode.None);
+        int current = activeWorkers.Length;
+
+        int missing = targetCount - current;
+
+        if (missing > 0)
+        {
+            AIWorker[] sleepingBots = FindObjectsByType<AIWorker>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            foreach (AIWorker bot in sleepingBots)
+            {
+                if (missing <= 0) break;
+
+                if (!bot.gameObject.activeSelf)
+                {
+                    bot.gameObject.SetActive(true);
+                    missing--;
+                }
+            }
+        }
+    }
 
     public Recipe GetRecipe(ProductType type)
     {

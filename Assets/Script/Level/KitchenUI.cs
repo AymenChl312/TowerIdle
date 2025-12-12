@@ -22,6 +22,23 @@ public class KitchenUI : MonoBehaviour
         linkedLogic = logicToLink;
     }
 
+    public void OnReturnClicked()
+    {
+        if (SaveManager.instance != null)
+        {
+            SaveManager.instance.Save();
+        }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.CloseLevel();
+        }
+        else
+        {
+            Debug.LogError("Erreur : Pas de GameManager trouvé pour fermer le niveau !");
+        }
+    }
+
     public void OnCustomerClicked(Customer targetCustomer)
     {
         if (commandTaken) return;
@@ -41,6 +58,14 @@ public class KitchenUI : MonoBehaviour
                 StartCoroutine(FindMixerAndContinue(targetCustomer));
             });
         });
+    }
+
+    public void OnOpenShopClicked()
+    {
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OpenShopFromLevel();
+        }
     }
 
     IEnumerator FindMixerAndContinue(Customer targetCustomer)

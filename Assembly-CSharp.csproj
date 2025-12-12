@@ -63,17 +63,23 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Manager\ClicDebug.cs" />
     <Compile Include="Assets\Script\Characters\WorkerBot_AI.cs" />
+    <Compile Include="Assets\Script\Save\SaveManager.cs" />
     <Compile Include="Assets\Script\Level\WorkStation.cs" />
     <Compile Include="Assets\Script\Characters\CustomerSpawner.cs" />
+    <Compile Include="Assets\Script\Manager\CameraAspectRatio.cs" />
+    <Compile Include="Assets\Script\Manager\AutoAssignCamera.cs" />
     <Compile Include="Assets\Script\Characters\PlayerController.cs" />
     <Compile Include="Assets\Script\Characters\Customer.cs" />
     <Compile Include="Assets\Script\UI\UpgradeEntry.cs" />
     <Compile Include="Assets\Script\Level\StageLogic.cs" />
     <Compile Include="Assets\Script\Level\ProductType.cs" />
     <Compile Include="Assets\Script\Level\KitchenUI.cs" />
+    <Compile Include="Assets\Script\Save\SaveData.cs" />
     <Compile Include="Assets\Script\Manager\GameManager.cs" />
+    <Compile Include="Assets\Script\UI\RegisterInterface.cs" />
     <Compile Include="Assets\Script\UI\SimpleProgressBar.cs" />
     <Compile Include="Assets\Script\UI\WorldUpgrade.cs" />
+    <Compile Include="Assets\Script\UI\SettingsMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -82,11 +82,10 @@ public class AIWorker : MonoBehaviour
 
         myController.GoToSpecificPosition(chosenMixer.interactionPoint, () =>
         {
-            if (myController.timeBar != null) myController.timeBar.StartTimer(recipe.preparationTime);
 
             myController.Wait(recipe.preparationTime, () =>
             {
-                chosenMixer.SetOccupied(false);
+                chosenMixer.SetOccupied(false); 
 
                 myController.GoToSpecificPosition(target.interactionPoint, () =>
                 {

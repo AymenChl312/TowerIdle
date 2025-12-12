@@ -5,7 +5,6 @@ public class GameManager : MonoBehaviour
 {
     
     [Header("Bank")]
-    public double currentMoney = 0;
     public TextMeshProUGUI moneyText;
 
     [Header("All Logics")]
@@ -16,18 +15,38 @@ public class GameManager : MonoBehaviour
     public Transform levelContainer;
     private GameObject currentOpenLevel; 
     public GameObject levelPrefab;
+    public GameObject backgroundMenu;
+    public GameObject upgradeShopPanel;
+    public GameObject uiInterface;
 
     public static GameManager instance;
 
+    public double currentMoney
+    {
+        get
+        {
+            if (SaveManager.instance != null && SaveManager.instance.data != null)
+                return SaveManager.instance.data.currentMoney;
+            return 0;
+        }
+        set
+        {
+            if (SaveManager.instance != null && SaveManager.instance.data != null)
+                SaveManager.instance.data.currentMoney = value;
+        }
+    }
+
     void Awake()
     {
-        instance = this; 
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
     void Start()
     {
         UpdateUI();
     }
+
 
     public void GenerateMoney(double amount)
     {
@@ -47,7 +66,15 @@ public class GameManager : MonoBehaviour
 
     public void OpenLevel(int id)
     {
+        Debug.Log("Ouverture du niveau " + id);
+
         towerView.SetActive(false);
+
+        if (backgroundMenu != null)
+        {
+            backgroundMenu.SetActive(false);
+        }
+
         if (currentOpenLevel != null) Destroy(currentOpenLevel);
 
         currentOpenLevel = Instantiate(levelPrefab, levelContainer);
@@ -64,5 +91,30 @@ public class GameManager : MonoBehaviour
         }
 
         towerView.SetActive(true);
+
+        if (backgroundMenu != null)
+        {
+            backgroundMenu.SetActive(true);
+        }
+    }
+
+    public void OpenShopFromLevel()
+    {
+        if (upgradeShopPanel != null)
+        {
+            upgradeShopPanel.SetActive(true);
+        }
+        if (uiInterface != null)
+            uiInterface.SetActive(false);
+    }
+
+    public void CloseShop()
+    {
+        if (upgradeShopPanel != null)
+        {
+            upgradeShopPanel.SetActive(false);
+        }
+        if (uiInterface != null)
+            uiInterface.SetActive(true);
     }
 }

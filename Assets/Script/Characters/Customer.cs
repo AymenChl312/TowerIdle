@@ -24,36 +24,40 @@ public class Customer : MonoBehaviour
     public bool isBeingServed = false;
 
     [Header("Command Think")]
-    public GameObject thinkCanvas; 
-    public Image bgThink;        
-    public Image productIcon;     
-
+    public GameObject thinkCanvas;
+    public Image bgThink;
+    public Image productIcon;
 
     public CustomerState currentState = CustomerState.Walking;
 
     private Transform assignedSlot;
-    private int mySlotIndex; 
+    private int mySlotIndex;
     private KitchenUI kitchenRef;
 
     public void Initialize(Transform targetSlot, int slotIndex)
     {
         assignedSlot = targetSlot;
         mySlotIndex = slotIndex;
-
         kitchenRef = FindFirstObjectByType<KitchenUI>();
+
+        StartCoroutine(InitRoutine());
+    }
+
+    IEnumerator InitRoutine()
+    {
+        yield return null;
 
         StageLogic logic = FindFirstObjectByType<StageLogic>();
 
         if (logic != null)
         {
             desiredProduct = logic.GetRandomUnlockedProduct();
+            UpdateBubbleVisual(logic);
         }
         else
         {
             desiredProduct = ProductType.Limonade;
         }
-
-        UpdateBubbleVisual(logic);
 
         StartCoroutine(SpawnSequence());
     }
@@ -75,52 +79,58 @@ public class Customer : MonoBehaviour
     public void SetServed()
     {
         if (isBeingServed) return;
-
         isBeingServed = true;
-
         if (bgThink != null) bgThink.color = Color.gray;
     }
-
 
     IEnumerator SpawnSequence()
     {
         yield return new WaitForSeconds(spawnDelay);
+
         currentState = CustomerState.Walking;
-    }
 
-    void Update()
-    {
-        if (currentState == CustomerState.Walking && assignedSlot != null)
+        if (assignedSlot != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, assignedSlot.position, walkSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, assignedSlot.position) < 0.01f)
-            {
-                SitDown();
-            }
+            StartCoroutine(MoveOrthogonalRoutine(assignedSlot.position));
         }
     }
+
+    IEnumerator MoveOrthogonalRoutine(Vector3 targetPos)
+    {
+        targetPos.z = transform.position.z;
+
+        Vector3 cornerPoint = new Vector3(targetPos.x, transform.position.y, transform.position.z);
+
+        while (Vector3.Distance(transform.position, cornerPoint) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, cornerPoint, walkSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        while (Vector3.Distance(transform.position, targetPos) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, walkSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        transform.position = targetPos;
+
+        SitDown();
+    }
+
 
     void SitDown()
     {
         currentState = CustomerState.Waiting;
-        Debug.Log("Client assis ! Prêt à être cliqué.");
     }
 
     private void OnMouseDown()
     {
-        Debug.Log("CLIC REÇU SUR LE CLIENT !");
-
         if (isBeingServed) return;
 
         if (currentState == CustomerState.Waiting && kitchenRef != null)
         {
-            Debug.Log("Condition OK : J'appelle la cuisine.");
             kitchenRef.OnCustomerClicked(this);
-        }
-        else
-        {
-            Debug.Log("Refusé : État = " + currentState + " / Cuisine trouvée ? " + (kitchenRef != null));
         }
     }
 
@@ -139,7 +149,6 @@ public class Customer : MonoBehaviour
 
     IEnumerator EatingRoutine(float duration, Action onFinished)
     {
-        Debug.Log("Client : Miam miam...");
         yield return new WaitForSeconds(duration);
         onFinished.Invoke();
         Leave();

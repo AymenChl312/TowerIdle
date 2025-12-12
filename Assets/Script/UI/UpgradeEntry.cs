@@ -12,35 +12,64 @@ public class UpgradeEntry : MonoBehaviour
     [Header("Settings")]
     public string upgradeName;
     public float baseCost;
-    public int currentLevel = 1;
 
-    public string upgradeType;
+    // On n'utilise plus 'currentLevel' simple, on le calcule
+    public string upgradeType; // "TABLE" ou "WORKER"
+
+    private StageLogic logic;
+    private string saveKey; // La clé unique (ex: "Lvl1_TABLE")
 
     void Start()
     {
+        logic = FindFirstObjectByType<StageLogic>();
+
+        if (logic != null)
+        {
+            // 1. On crée un identifiant unique pour cette upgrade dans ce niveau
+            saveKey = "Lvl" + logic.levelID + "_" + upgradeType;
+
+            // 2. ON CHARGE LA SAUVEGARDE
+            RestoreState();
+        }
+
+        // 3. On met à jour l'affichage
         UpdateUI();
 
         buyButton.onClick.AddListener(OnBuyClicked);
     }
 
-    void UpdateUI()
+    void RestoreState()
     {
-        titleText.text = upgradeName + " (Lvl " + currentLevel + ")";
-        costText.text = "$ " + baseCost.ToString("F0");
+        if (SaveManager.instance == null) return;
+
+        foreach (UpgradeSave item in SaveManager.instance.data.upgrades)
+        {
+            if (item.id == saveKey)
+            {
+                int savedCount = item.count;
+                int currentActive = CountActiveItems();
+                int missing = savedCount - currentActive;
+
+                for (int i = 0; i < missing; i++)
+                {
+                    ForceActivateOneItem();
+                    baseCost = baseCost * 1.5f;
+                }
+                return;
+            }
+        }
     }
+
 
     void OnBuyClicked()
     {
-        double currentMoney = GameManager.instance.currentMoney;
-
-        if (currentMoney >= baseCost)
+        if (GameManager.instance.currentMoney >= baseCost)
         {
             BuyUpgrade();
         }
         else
         {
-            Debug.Log("Not enough money! Need: " + baseCost);
-            // TODO: Play error sound or flash red
+            Debug.Log("Pas assez d'argent !");
         }
     }
 
@@ -48,53 +77,102 @@ public class UpgradeEntry : MonoBehaviour
     {
         GameManager.instance.GenerateMoney(-baseCost);
 
-        currentLevel++;
-
         baseCost = baseCost * 1.5f;
 
-        // 4. Apply Effect (We will code this part in the next step!)
-        Debug.Log("Upgrade Purchased: " + upgradeType);
-        ApplyUpgradeEffect();
+        ForceActivateOneItem();
+
+        SaveProgress();
 
         UpdateUI();
     }
 
-    void ApplyUpgradeEffect()
+    void SaveProgress()
+    {
+        if (SaveManager.instance == null) return;
+
+        int total = CountActiveItems();
+        bool found = false;
+
+        foreach (UpgradeSave item in SaveManager.instance.data.upgrades)
+        {
+            if (item.id == saveKey)
+            {
+                item.count = total; 
+                found = true;
+                break;
+            }
+        }
+
+       
+        if (!found)
+        {
+            SaveManager.instance.data.upgrades.Add(new UpgradeSave(saveKey, total));
+        }
+
+        SaveManager.instance.Save();
+    }
+
+
+    int CountActiveItems()
+    {
+        if (logic == null) return 0;
+        int count = 0;
+
+        if (upgradeType == "TABLE")
+        {
+            CustomerSpawner spawner = FindFirstObjectByType<CustomerSpawner>();
+            if (spawner != null)
+            {
+                foreach (Transform child in spawner.transform)
+                    if (child.gameObject.activeSelf) count++;
+            }
+        }
+        else if (upgradeType == "WORKER")
+        {
+            AIWorker[] activeWorkers = FindObjectsByType<AIWorker>(FindObjectsSortMode.None);
+            count = activeWorkers.Length;
+        }
+        return count;
+    }
+
+    void ForceActivateOneItem()
     {
         if (upgradeType == "TABLE")
         {
             CustomerSpawner spawner = FindFirstObjectByType<CustomerSpawner>();
-
-            if (spawner != null)
-            {
-                spawner.IncreaseCapacity();
-            }
-            else
-            {
-                Debug.LogError("Erreur : Impossible de trouver le CustomerSpawner !");
-            }
+            if (spawner != null) spawner.IncreaseCapacity();
         }
-
         else if (upgradeType == "WORKER")
         {
-            // Astuce : On doit chercher l'employé même s'il est caché (Inactive) !
-            // "FindObjectsInactive.Include" est la clé magique ici.
-            AIWorker bot = FindFirstObjectByType<AIWorker>(FindObjectsInactive.Include);
-
-            if (bot != null)
+            AIWorker[] allBots = FindObjectsByType<AIWorker>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (AIWorker bot in allBots)
             {
-                bot.gameObject.SetActive(true);
-                Debug.Log("Upgrade : Employé embauché !");
-
-                buyButton.interactable = false;
-                titleText.text = upgradeName + " (MAX)";
-            }
-            else
-            {
-                Debug.LogError("Erreur : Impossible de trouver l'Employe_Bot dans la scène !");
+                if (!bot.gameObject.activeSelf)
+                {
+                    bot.gameObject.SetActive(true);
+                    break;
+                }
             }
         }
+    }
 
-        //Autre cas plus tard
+    void UpdateUI()
+    {
+        if (logic == null) return;
+
+        int currentCount = CountActiveItems();
+        int maxLimit = (upgradeType == "TABLE") ? logic.maxTables : logic.maxWorkers;
+
+        if (currentCount >= maxLimit)
+        {
+            titleText.text = upgradeName + " (MAX)";
+            buyButton.interactable = false;
+            costText.text = "---";
+        }
+        else
+        {
+            titleText.text = upgradeName + " (Lvl " + currentCount + ")";
+            costText.text = "$ " + baseCost.ToString("F0");
+        }
     }
 }

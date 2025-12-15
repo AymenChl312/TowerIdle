@@ -13,26 +13,27 @@ public class UpgradeEntry : MonoBehaviour
     public string upgradeName;
     public float baseCost;
 
-    // On n'utilise plus 'currentLevel' simple, on le calcule
-    public string upgradeType; // "TABLE" ou "WORKER"
+    [Header("Configuration")]
+    public string upgradeType;
+
 
     private StageLogic logic;
-    private string saveKey; // La clé unique (ex: "Lvl1_TABLE")
+    private string saveKey; 
+    private float initialBaseCost;
 
     void Start()
     {
+        initialBaseCost = baseCost;
+
         logic = FindFirstObjectByType<StageLogic>();
 
         if (logic != null)
         {
-            // 1. On crée un identifiant unique pour cette upgrade dans ce niveau
             saveKey = "Lvl" + logic.levelID + "_" + upgradeType;
 
-            // 2. ON CHARGE LA SAUVEGARDE
             RestoreState();
         }
 
-        // 3. On met à jour l'affichage
         UpdateUI();
 
         buyButton.onClick.AddListener(OnBuyClicked);
@@ -48,18 +49,22 @@ public class UpgradeEntry : MonoBehaviour
             {
                 int savedCount = item.count;
                 int currentActive = CountActiveItems();
-                int missing = savedCount - currentActive;
 
-                for (int i = 0; i < missing; i++)
+                if (savedCount > currentActive)
                 {
-                    ForceActivateOneItem();
-                    baseCost = baseCost * 1.5f;
+                    int missing = savedCount - currentActive;
+                    for (int i = 0; i < missing; i++)
+                    {
+                        ForceActivateOneItem();
+                    }
                 }
+
+                baseCost = initialBaseCost * Mathf.Pow(1.5f, savedCount);
+
                 return;
             }
         }
     }
-
 
     void OnBuyClicked()
     {
@@ -69,7 +74,7 @@ public class UpgradeEntry : MonoBehaviour
         }
         else
         {
-            Debug.Log("Pas assez d'argent !");
+            Debug.Log("Pas assez d'argent ! Manque : " + (baseCost - GameManager.instance.currentMoney));
         }
     }
 
@@ -77,7 +82,7 @@ public class UpgradeEntry : MonoBehaviour
     {
         GameManager.instance.GenerateMoney(-baseCost);
 
-        baseCost = baseCost * 1.5f;
+        baseCost = Mathf.Round(baseCost * 1.5f);
 
         ForceActivateOneItem();
 
@@ -97,13 +102,12 @@ public class UpgradeEntry : MonoBehaviour
         {
             if (item.id == saveKey)
             {
-                item.count = total; 
+                item.count = total;
                 found = true;
                 break;
             }
         }
 
-       
         if (!found)
         {
             SaveManager.instance.data.upgrades.Add(new UpgradeSave(saveKey, total));
@@ -111,7 +115,6 @@ public class UpgradeEntry : MonoBehaviour
 
         SaveManager.instance.Save();
     }
-
 
     int CountActiveItems()
     {

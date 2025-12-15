@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Skin_BlueOctopus
+  m_Controller: {fileID: 9100000, guid: 8dccbce248984ea458e46ae33440f3a7, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c116c358ae8bbd64bbae32679b63c0e2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e4427e194cf447f47a32689538e25dbb, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 90b40f26a9947094a832ddbcd052c471, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3f7c3aa81c7360b4fbbf6b0252eeff5d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0640a995e8bce6d4ebe881842ffa9e45, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f6d572a7c29ddd842a4f1335ad0cc076, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ce57ceed415c4814aac4ed06683e0b23, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: be28305439ecd454b854558204150f71, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1a0bc439d43d917449b87f7d9c2b82bd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d6964243f92569b4eab370435df64532, type: 2}

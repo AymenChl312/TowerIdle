@@ -16,8 +16,8 @@ public class SaveManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); 
-            Load(); 
+            DontDestroyOnLoad(gameObject);
+            Load();
         }
         else
         {
@@ -56,19 +56,52 @@ public class SaveManager : MonoBehaviour
 
         if (data.upgrades == null) data.upgrades = new List<UpgradeSave>();
         if (data.unlockedItems == null) data.unlockedItems = new List<string>();
+        if (data.assignedWorkerSkins == null) data.assignedWorkerSkins = new List<int>();
+    }
+
+    public int GetOrAssignSkinForWorker(int workerID, int totalSkinsAvailable)
+    {
+        if (workerID < data.assignedWorkerSkins.Count)
+        {
+            int savedSkinIndex = data.assignedWorkerSkins[workerID];
+
+            if (savedSkinIndex >= totalSkinsAvailable) savedSkinIndex = 0;
+
+            return savedSkinIndex;
+        }
+        else
+        {
+            while (data.assignedWorkerSkins.Count <= workerID)
+            {
+                int randomSkin = Random.Range(0, totalSkinsAvailable);
+                data.assignedWorkerSkins.Add(randomSkin);
+            }
+
+            Save();
+
+            return data.assignedWorkerSkins[workerID];
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus) Save();
     }
 
     public void DeleteSave()
     {
         SaveData emptyData = new SaveData();
-        if (emptyData.upgrades == null) emptyData.upgrades = new System.Collections.Generic.List<UpgradeSave>();
-        if (emptyData.unlockedItems == null) emptyData.unlockedItems = new System.Collections.Generic.List<string>();
 
         string json = JsonUtility.ToJson(emptyData, true);
         string path = Path.Combine(Application.persistentDataPath, saveFileName);
         File.WriteAllText(path, json);
 
-        Debug.Log("SAUVEGARDE EFFACÉE !");
+        Debug.Log("SAUVEGARDE ET SKINS EFFACÉS !");
 
         if (instance == this)
         {

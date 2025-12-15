@@ -8,6 +8,10 @@ public class CustomerSpawner : MonoBehaviour
     public Transform spawnPoint;
     public Transform[] customerSlots;
 
+    [Header("Skins Aleatoires")]
+    // GLISSE TES OVERRIDES (Skin_Client_01, etc.) ICI DANS L'INSPECTEUR
+    public List<AnimatorOverrideController> customerSkins;
+
     [Header("Settings")]
     public float spawnRate = 3.0f;
     public int maxCapacity = 1;
@@ -15,7 +19,6 @@ public class CustomerSpawner : MonoBehaviour
     // Variables internes
     private float spawnTimer = 0f;
     private int currentCustomersCount = 0;
-
     private bool[] isSlotTaken;
 
     void Start()
@@ -56,8 +59,18 @@ public class CustomerSpawner : MonoBehaviour
         isSlotTaken[finalSlotIndex] = true;
 
         GameObject newCustomer = Instantiate(customerPrefab, spawnPoint.position, Quaternion.identity);
-        Customer script = newCustomer.GetComponent<Customer>();
 
+        if (customerSkins.Count > 0)
+        {
+            Animator customerAnim = newCustomer.GetComponent<Animator>();
+            if (customerAnim != null)
+            {
+                int randomSkinIndex = Random.Range(0, customerSkins.Count);
+                customerAnim.runtimeAnimatorController = customerSkins[randomSkinIndex];
+            }
+        }
+
+        Customer script = newCustomer.GetComponent<Customer>();
         script.Initialize(customerSlots[finalSlotIndex], finalSlotIndex);
 
         currentCustomersCount++;
@@ -80,7 +93,6 @@ public class CustomerSpawner : MonoBehaviour
         {
             maxCapacity++;
             Debug.Log("Spawner Upgrade: Capacity is now " + maxCapacity);
-
             TrySpawnCustomer();
         }
         else

@@ -34,11 +34,15 @@ public class Customer : MonoBehaviour
     private int mySlotIndex;
     private KitchenUI kitchenRef;
 
+    private Animator animator;
+
     public void Initialize(Transform targetSlot, int slotIndex)
     {
         assignedSlot = targetSlot;
         mySlotIndex = slotIndex;
         kitchenRef = FindFirstObjectByType<KitchenUI>();
+
+        animator = GetComponent<Animator>();
 
         StartCoroutine(InitRoutine());
     }
@@ -65,14 +69,8 @@ public class Customer : MonoBehaviour
     void UpdateBubbleVisual(StageLogic logic)
     {
         if (logic == null) return;
-
         Recipe recipe = logic.GetRecipe(desiredProduct);
-
-        if (recipe != null)
-        {
-            productIcon.sprite = recipe.icon;
-        }
-
+        if (recipe != null) productIcon.sprite = recipe.icon;
         bgThink.color = Color.white;
     }
 
@@ -86,9 +84,7 @@ public class Customer : MonoBehaviour
     IEnumerator SpawnSequence()
     {
         yield return new WaitForSeconds(spawnDelay);
-
         currentState = CustomerState.Walking;
-
         if (assignedSlot != null)
         {
             StartCoroutine(MoveOrthogonalRoutine(assignedSlot.position));
@@ -97,15 +93,23 @@ public class Customer : MonoBehaviour
 
     IEnumerator MoveOrthogonalRoutine(Vector3 targetPos)
     {
+        if (animator != null) animator.SetBool("isMoving", true);
+
         targetPos.z = transform.position.z;
 
         Vector3 cornerPoint = new Vector3(targetPos.x, transform.position.y, transform.position.z);
+
+        float dirX = (targetPos.x > transform.position.x) ? 1f : -1f;
+        UpdateAnimDirection(dirX, 0f);
 
         while (Vector3.Distance(transform.position, cornerPoint) > 0.01f)
         {
             transform.position = Vector3.MoveTowards(transform.position, cornerPoint, walkSpeed * Time.deltaTime);
             yield return null;
         }
+
+        float dirY = (targetPos.y > transform.position.y) ? 1f : -1f;
+        UpdateAnimDirection(0f, dirY);
 
         while (Vector3.Distance(transform.position, targetPos) > 0.01f)
         {
@@ -118,16 +122,26 @@ public class Customer : MonoBehaviour
         SitDown();
     }
 
+    void UpdateAnimDirection(float x, float y)
+    {
+        if (animator != null)
+        {
+            animator.SetFloat("InputX", x);
+            animator.SetFloat("InputY", y);
+        }
+    }
 
     void SitDown()
     {
+        if (animator != null) animator.SetBool("isMoving", false);
+
         currentState = CustomerState.Waiting;
     }
+
 
     private void OnMouseDown()
     {
         if (isBeingServed) return;
-
         if (currentState == CustomerState.Waiting && kitchenRef != null)
         {
             kitchenRef.OnCustomerClicked(this);
@@ -137,13 +151,8 @@ public class Customer : MonoBehaviour
     public void StartEating(float duration, Action onFinished)
     {
         currentState = CustomerState.Eating;
-
         if (thinkCanvas != null) thinkCanvas.SetActive(false);
-
-        if (timeBar != null)
-        {
-            timeBar.StartTimer(duration);
-        }
+        if (timeBar != null) timeBar.StartTimer(duration);
         StartCoroutine(EatingRoutine(duration, onFinished));
     }
 
@@ -157,13 +166,8 @@ public class Customer : MonoBehaviour
     void Leave()
     {
         currentState = CustomerState.Leaving;
-
         CustomerSpawner spawner = FindFirstObjectByType<CustomerSpawner>();
-        if (spawner != null)
-        {
-            spawner.CustomerLeft(mySlotIndex);
-        }
-
+        if (spawner != null) spawner.CustomerLeft(mySlotIndex);
         Destroy(gameObject);
     }
 }

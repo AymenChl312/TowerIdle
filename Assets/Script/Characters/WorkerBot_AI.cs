@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AIWorker : MonoBehaviour
 {
@@ -8,12 +9,32 @@ public class AIWorker : MonoBehaviour
     public CustomerSpawner spawner;
     public StageLogic logic;
 
+    [Header("WorkerId")]
+    public int workerID = 0;
+
+    [Header("Apparence")]
+    public List<AnimatorOverrideController> workerSkins;
+
     private bool isBusy = false;
 
     void Start()
     {
         if (spawner == null) spawner = FindFirstObjectByType<CustomerSpawner>();
         if (logic == null) logic = FindFirstObjectByType<StageLogic>();
+
+        ApplyPersistentSkin();
+    }
+
+    void ApplyPersistentSkin()
+    {
+        if (workerSkins == null || workerSkins.Count == 0) return;
+
+        Animator anim = myController.GetComponent<Animator>();
+        if (anim == null) return;
+
+        int skinIndex = SaveManager.instance.GetOrAssignSkinForWorker(workerID, workerSkins.Count);
+
+        anim.runtimeAnimatorController = workerSkins[skinIndex];
     }
 
     void Update()
@@ -23,6 +44,7 @@ public class AIWorker : MonoBehaviour
 
         FindAndServeCustomer();
     }
+
 
     void FindAndServeCustomer()
     {
@@ -42,8 +64,6 @@ public class AIWorker : MonoBehaviour
     {
         isBusy = true;
         target.SetServed();
-
-        Debug.Log("IA : Prise de commande pour " + target.name);
 
         myController.GoToSpecificPosition(target.interactionPoint, () =>
         {
@@ -82,10 +102,9 @@ public class AIWorker : MonoBehaviour
 
         myController.GoToSpecificPosition(chosenMixer.interactionPoint, () =>
         {
-
             myController.Wait(recipe.preparationTime, () =>
             {
-                chosenMixer.SetOccupied(false); 
+                chosenMixer.SetOccupied(false);
 
                 myController.GoToSpecificPosition(target.interactionPoint, () =>
                 {

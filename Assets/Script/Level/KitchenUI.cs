@@ -113,7 +113,7 @@ public class KitchenUI : MonoBehaviour
 
                         targetCustomer.StartEating(linkedLogic.eatingTime, () =>
                         {
-                            linkedLogic.CollectMoney(recipe.price);
+                            linkedLogic.CollectMoney(recipe.price, recipe.type);
                         });
                     });
                 });

@@ -1,27 +1,48 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
 
 public class WorldUpgrade : MonoBehaviour
 {
+    public enum UpgradeType { ObjectUnlock, PlayerSpeed, WorkerSpeed, ProductPrice }
+
+    [Header("Type d'Amélioration")]
+    public UpgradeType type = UpgradeType.ObjectUnlock;
+
     [Header("Settings Price")]
     public float price = 500f;
-    public string productName = "Machine";
-
+    public string productName = "Amélioration";
     public string uniqueID;
 
-    [Header("Recipe Unlock")]
+    [Header("Pour ObjectUnlock")]
+    public GameObject objectInSold;
     public bool unlockRecipe = false;
-    public ProductType recipeType;
+    public ProductType recipeToUnlock;
+
+    [Header("Pour ProductPrice")]
+    public ProductType targetProduct; 
+    public ProductType requiredProductUnlocked; 
+    public bool requiresCondition = false; 
+
+    [Header("Valeurs")]
+    public float multiplierValue = 2.0f; 
 
     [Header("References")]
-    public GameObject objectInSold;
     public GameObject buyPanel;
     public TextMeshProUGUI priceText;
 
     void Start()
     {
         if (priceText != null) priceText.text = productName + "\n" + price.ToString() + " $";
+
+        if (requiresCondition)
+        {
+            StageLogic logic = FindFirstObjectByType<StageLogic>();
+            if (logic != null && !logic.IsProductUnlocked(requiredProductUnlocked))
+            {
+                gameObject.SetActive(false);
+                return; 
+            }
+        }
 
         if (SaveManager.instance != null && SaveManager.instance.data != null)
         {
@@ -31,35 +52,36 @@ public class WorldUpgrade : MonoBehaviour
 
     void CheckIfAlreadyBought()
     {
-        if (SaveManager.instance != null)
+        if (SaveManager.instance.data.unlockedItems.Contains(uniqueID))
         {
-            if (SaveManager.instance.data.unlockedItems.Contains(uniqueID))
-            {
-                UnlockContent();
+            ApplyEffect();
+            if (buyPanel != null) buyPanel.SetActive(false);
 
-                if (buyPanel != null) buyPanel.SetActive(false);
-            }
+            Collider col = GetComponent<Collider>();
+            if (col != null) col.enabled = false;
         }
     }
 
-    public void Buy() 
+    public void Buy()
     {
         if (GameManager.instance.currentMoney >= price)
         {
             GameManager.instance.GenerateMoney(-price);
 
-            UnlockContent();
+            ApplyEffect(); 
 
             if (SaveManager.instance != null)
             {
                 if (!SaveManager.instance.data.unlockedItems.Contains(uniqueID))
                 {
                     SaveManager.instance.data.unlockedItems.Add(uniqueID);
-                    SaveManager.instance.Save(); 
+                    SaveManager.instance.Save();
                 }
             }
 
             if (buyPanel != null) buyPanel.SetActive(false);
+            Collider col = GetComponent<Collider>();
+            if (col != null) col.enabled = false;
         }
         else
         {
@@ -67,14 +89,39 @@ public class WorldUpgrade : MonoBehaviour
         }
     }
 
-    void UnlockContent()
+    void ApplyEffect()
     {
-        if (objectInSold != null) objectInSold.SetActive(true);
+        StageLogic logic = FindFirstObjectByType<StageLogic>();
+        if (logic == null) return;
 
-        if (unlockRecipe)
+        switch (type)
         {
-            StageLogic logic = FindFirstObjectByType<StageLogic>();
-            if (logic != null) logic.UnlockProduct(recipeType);
+            case UpgradeType.ObjectUnlock:
+                if (objectInSold != null) objectInSold.SetActive(true);
+                if (unlockRecipe) logic.UnlockProduct(recipeToUnlock);
+                break;
+
+            case UpgradeType.PlayerSpeed:
+                logic.playerSpeedMultiplier = multiplierValue;
+                Debug.Log("Vitesse joueur augmentée !");
+                break;
+
+            case UpgradeType.WorkerSpeed:
+                logic.workerSpeedMultiplier = multiplierValue;
+                Debug.Log("Vitesse workers augmentée !");
+                break;
+
+            case UpgradeType.ProductPrice:
+                if (logic.priceMultipliers.ContainsKey(targetProduct))
+                {
+                    logic.priceMultipliers[targetProduct] = multiplierValue;
+                }
+                else
+                {
+                    logic.priceMultipliers.Add(targetProduct, multiplierValue);
+                }
+                Debug.Log("Prix doublé pour : " + targetProduct);
+                break;
         }
     }
 }

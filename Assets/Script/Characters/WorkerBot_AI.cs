@@ -112,7 +112,7 @@ public class AIWorker : MonoBehaviour
                     {
                         target.StartEating(logic.eatingTime, () =>
                         {
-                            logic.CollectMoney(recipe.price);
+                            logic.CollectMoney(recipe.price, recipe.type);
                         });
 
                         myController.GoToIdle();

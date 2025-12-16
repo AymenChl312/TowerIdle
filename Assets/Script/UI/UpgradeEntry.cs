@@ -16,26 +16,25 @@ public class UpgradeEntry : MonoBehaviour
     [Header("Configuration")]
     public string upgradeType;
 
+    public bool requiresProductUnlock = false;
+    public ProductType requiredProduct;
 
     private StageLogic logic;
-    private string saveKey; 
+    private string saveKey;
     private float initialBaseCost;
 
     void Start()
     {
         initialBaseCost = baseCost;
-
         logic = FindFirstObjectByType<StageLogic>();
 
         if (logic != null)
         {
             saveKey = "Lvl" + logic.levelID + "_" + upgradeType;
-
             RestoreState();
         }
 
         UpdateUI();
-
         buyButton.onClick.AddListener(OnBuyClicked);
     }
 
@@ -55,12 +54,11 @@ public class UpgradeEntry : MonoBehaviour
                     int missing = savedCount - currentActive;
                     for (int i = 0; i < missing; i++)
                     {
-                        ForceActivateOneItem();
+                        ForceActivateOneItem(currentActive + 1 + i);
                     }
                 }
 
                 baseCost = initialBaseCost * Mathf.Pow(1.5f, savedCount);
-
                 return;
             }
         }
@@ -74,7 +72,7 @@ public class UpgradeEntry : MonoBehaviour
         }
         else
         {
-            Debug.Log("Pas assez d'argent ! Manque : " + (baseCost - GameManager.instance.currentMoney));
+            Debug.Log("Pas assez d'argent !");
         }
     }
 
@@ -84,10 +82,10 @@ public class UpgradeEntry : MonoBehaviour
 
         baseCost = Mathf.Round(baseCost * 1.5f);
 
-        ForceActivateOneItem();
+        int currentLevel = CountActiveItems();
+        ForceActivateOneItem(currentLevel + 1);
 
         SaveProgress();
-
         UpdateUI();
     }
 
@@ -112,34 +110,36 @@ public class UpgradeEntry : MonoBehaviour
         {
             SaveManager.instance.data.upgrades.Add(new UpgradeSave(saveKey, total));
         }
-
         SaveManager.instance.Save();
     }
 
     int CountActiveItems()
     {
         if (logic == null) return 0;
-        int count = 0;
 
         if (upgradeType == "TABLE")
         {
             CustomerSpawner spawner = FindFirstObjectByType<CustomerSpawner>();
-            if (spawner != null)
-            {
-                foreach (Transform child in spawner.transform)
-                    if (child.gameObject.activeSelf) count++;
-            }
+            if (spawner == null) return 0;
+            int count = 0;
+            foreach (Transform child in spawner.transform) if (child.gameObject.activeSelf) count++;
+            return count;
         }
         else if (upgradeType == "WORKER")
         {
             AIWorker[] activeWorkers = FindObjectsByType<AIWorker>(FindObjectsSortMode.None);
-            count = activeWorkers.Length;
+            return activeWorkers.Length;
         }
-        return count;
+        else
+        {
+            return logic.GetStatLevel(upgradeType);
+        }
     }
 
-    void ForceActivateOneItem()
+    void ForceActivateOneItem(int newLevelTarget = -1)
     {
+        if (logic == null) return;
+
         if (upgradeType == "TABLE")
         {
             CustomerSpawner spawner = FindFirstObjectByType<CustomerSpawner>();
@@ -150,12 +150,17 @@ public class UpgradeEntry : MonoBehaviour
             AIWorker[] allBots = FindObjectsByType<AIWorker>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (AIWorker bot in allBots)
             {
-                if (!bot.gameObject.activeSelf)
-                {
-                    bot.gameObject.SetActive(true);
-                    break;
-                }
+                if (!bot.gameObject.activeSelf) { bot.gameObject.SetActive(true); break; }
             }
+        }
+        else
+        {
+            if (newLevelTarget == -1) newLevelTarget = CountActiveItems() + 1;
+
+            if (upgradeType == "PLAYER_SPEED") logic.SetPlayerSpeedLevel(newLevelTarget);
+            else if (upgradeType == "WORKER_SPEED") logic.SetWorkerSpeedLevel(newLevelTarget);
+            else if (upgradeType == "PRICE_ORANGE") logic.SetProductPriceLevel(ProductType.Orange, newLevelTarget);
+            else if (upgradeType == "PRICE_LIMONADE") logic.SetProductPriceLevel(ProductType.Limonade, newLevelTarget);
         }
     }
 
@@ -163,8 +168,32 @@ public class UpgradeEntry : MonoBehaviour
     {
         if (logic == null) return;
 
+        if (requiresProductUnlock && !logic.IsProductUnlocked(requiredProduct))
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        if (upgradeType == "WORKER_SPEED")
+        {
+            AIWorker[] activeWorkers = FindObjectsByType<AIWorker>(FindObjectsSortMode.None);
+
+            if (activeWorkers.Length == 0)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+
+        gameObject.SetActive(true);
+
+
         int currentCount = CountActiveItems();
-        int maxLimit = (upgradeType == "TABLE") ? logic.maxTables : logic.maxWorkers;
+
+        int maxLimit = 0;
+        if (upgradeType == "TABLE") maxLimit = logic.maxTables;
+        else if (upgradeType == "WORKER") maxLimit = logic.maxWorkers;
+        else maxLimit = logic.GetStatMaxLimit(upgradeType);
 
         if (currentCount >= maxLimit)
         {
@@ -176,6 +205,7 @@ public class UpgradeEntry : MonoBehaviour
         {
             titleText.text = upgradeName + " (Lvl " + currentCount + ")";
             costText.text = "$ " + baseCost.ToString("F0");
+            buyButton.interactable = true;
         }
     }
 }

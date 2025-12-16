@@ -8,8 +8,21 @@ public class StageLogic : MonoBehaviour
     public int levelID = 1;
     public float interactionTime = 1f;
     public float eatingTime = 3f;
-
     public bool isBusy = false;
+
+    [Header("Speed Upgrades")]
+    public int currentPlayerSpeedLevel = 0;
+    public int maxPlayerSpeedLevel = 5;
+    public float playerSpeedMultiplier = 1.0f;
+
+    public int currentWorkerSpeedLevel = 0;
+    public int maxWorkerSpeedLevel = 5;
+    public float workerSpeedMultiplier = 1.0f;
+
+    [Header("Price Upgrades")]
+    public int maxPriceLevel = 3;
+    public Dictionary<ProductType, int> productPriceLevels = new Dictionary<ProductType, int>();
+    public Dictionary<ProductType, float> priceMultipliers = new Dictionary<ProductType, float>();
 
     [Header("Recipe")]
     public List<Recipe> menu;
@@ -18,8 +31,14 @@ public class StageLogic : MonoBehaviour
     public WorkStation[] mixers;
 
     [Header("Upgrade Level Limits")]
-    public int maxTables = 6; 
+    public int maxTables = 6;
     public int maxWorkers = 1;
+
+    void Awake()
+    {
+        if (!priceMultipliers.ContainsKey(ProductType.Limonade)) { priceMultipliers.Add(ProductType.Limonade, 1f); productPriceLevels.Add(ProductType.Limonade, 0); }
+        if (!priceMultipliers.ContainsKey(ProductType.Orange)) { priceMultipliers.Add(ProductType.Orange, 1f); productPriceLevels.Add(ProductType.Orange, 0); }
+    }
 
     IEnumerator Start()
     {
@@ -27,8 +46,22 @@ public class StageLogic : MonoBehaviour
         yield return null;
 
         RestoreLevelObjects();
-
+        RestoreStatsUpgrades();
         SyncRecipesWithSave();
+    }
+
+
+    void RestoreStatsUpgrades()
+    {
+        if (SaveManager.instance == null) return;
+
+        foreach (UpgradeSave item in SaveManager.instance.data.upgrades)
+        {
+            if (item.id == "Lvl" + levelID + "_PLAYER_SPEED") SetPlayerSpeedLevel(item.count);
+            else if (item.id == "Lvl" + levelID + "_WORKER_SPEED") SetWorkerSpeedLevel(item.count);
+            else if (item.id == "Lvl" + levelID + "_PRICE_ORANGE") SetProductPriceLevel(ProductType.Orange, item.count);
+            else if (item.id == "Lvl" + levelID + "_PRICE_LIMONADE") SetProductPriceLevel(ProductType.Limonade, item.count);
+        }
     }
 
     void SyncRecipesWithSave()
@@ -65,12 +98,7 @@ public class StageLogic : MonoBehaviour
                 break;
             }
         }
-
-        if (!tableFound)
-        {
-            SetActiveTables(0);
-            Debug.Log("Aucune save table trouvée -> Chargement par défaut (1)");
-        }
+        if (!tableFound) SetActiveTables(0);
 
         bool workerFound = false;
         foreach (UpgradeSave item in SaveManager.instance.data.upgrades)
@@ -82,11 +110,28 @@ public class StageLogic : MonoBehaviour
                 break;
             }
         }
+        if (!workerFound) SetActiveWorkers(0);
+    }
 
-        if (!workerFound)
+
+    public void SetPlayerSpeedLevel(int level)
+    {
+        currentPlayerSpeedLevel = level;
+        playerSpeedMultiplier = 1.0f + (currentPlayerSpeedLevel * 0.2f);
+    }
+
+    public void SetWorkerSpeedLevel(int level)
+    {
+        currentWorkerSpeedLevel = level;
+        workerSpeedMultiplier = 1.0f + (currentWorkerSpeedLevel * 0.25f);
+    }
+
+    public void SetProductPriceLevel(ProductType type, int level)
+    {
+        if (productPriceLevels.ContainsKey(type))
         {
-            SetActiveWorkers(0);
-            Debug.Log("Aucune save worker trouvée -> Chargement par défaut (0)");
+            productPriceLevels[type] = level;
+            priceMultipliers[type] = 1.0f + (level * 1f);
         }
     }
 
@@ -100,10 +145,7 @@ public class StageLogic : MonoBehaviour
                 if (child.gameObject.activeSelf) current++;
 
             int missing = targetCount - current;
-            for (int i = 0; i < missing; i++)
-            {
-                spawner.IncreaseCapacity();
-            }
+            for (int i = 0; i < missing; i++) spawner.IncreaseCapacity();
         }
     }
 
@@ -111,17 +153,14 @@ public class StageLogic : MonoBehaviour
     {
         AIWorker[] activeWorkers = FindObjectsByType<AIWorker>(FindObjectsSortMode.None);
         int current = activeWorkers.Length;
-
         int missing = targetCount - current;
 
         if (missing > 0)
         {
             AIWorker[] sleepingBots = FindObjectsByType<AIWorker>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-
             foreach (AIWorker bot in sleepingBots)
             {
                 if (missing <= 0) break;
-
                 if (!bot.gameObject.activeSelf)
                 {
                     bot.gameObject.SetActive(true);
@@ -131,6 +170,25 @@ public class StageLogic : MonoBehaviour
         }
     }
 
+
+    public int GetStatLevel(string type)
+    {
+        if (type == "PLAYER_SPEED") return currentPlayerSpeedLevel;
+        if (type == "WORKER_SPEED") return currentWorkerSpeedLevel;
+        if (type == "PRICE_ORANGE") return productPriceLevels.ContainsKey(ProductType.Orange) ? productPriceLevels[ProductType.Orange] : 0;
+        if (type == "PRICE_LIMONADE") return productPriceLevels.ContainsKey(ProductType.Limonade) ? productPriceLevels[ProductType.Limonade] : 0;
+        return 0;
+    }
+
+    public int GetStatMaxLimit(string type)
+    {
+        if (type == "PLAYER_SPEED") return maxPlayerSpeedLevel;
+        if (type == "WORKER_SPEED") return maxWorkerSpeedLevel;
+        if (type.Contains("PRICE_")) return maxPriceLevel;
+        return 99;
+    }
+
+
     public Recipe GetRecipe(ProductType type)
     {
         foreach (Recipe r in menu)
@@ -138,6 +196,12 @@ public class StageLogic : MonoBehaviour
             if (r.type == type) return r;
         }
         return null;
+    }
+
+    public bool IsProductUnlocked(ProductType type)
+    {
+        Recipe r = GetRecipe(type);
+        return r != null && r.isUnlocked;
     }
 
     public ProductType GetRandomUnlockedProduct()
@@ -162,11 +226,19 @@ public class StageLogic : MonoBehaviour
         }
     }
 
-    public void CollectMoney(float amount)
+    public void CollectMoney(float basePrice, ProductType productType)
     {
+        float multiplier = 1.0f;
+        if (priceMultipliers.ContainsKey(productType))
+        {
+            multiplier = priceMultipliers[productType];
+        }
+
+        float finalAmount = basePrice * multiplier;
+
         if (GameManager.instance != null)
         {
-            GameManager.instance.GenerateMoney(amount);
+            GameManager.instance.GenerateMoney(finalAmount);
         }
     }
 
@@ -177,11 +249,10 @@ public class StageLogic : MonoBehaviour
 
     IEnumerator ProductionRoutine(float duration, System.Action onFinished)
     {
-        isBusy = true; 
-        yield return new WaitForSeconds(duration); 
-        isBusy = false; 
-
-        onFinished?.Invoke(); 
+        isBusy = true;
+        yield return new WaitForSeconds(duration);
+        isBusy = false;
+        onFinished?.Invoke();
     }
 }
 

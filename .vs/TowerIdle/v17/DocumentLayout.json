@@ -3,8 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\users\\ghowo\\documents\\github\\toweridle\\assets\\script\\truc bizarre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\script\\truc bizarre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\level\\stagelogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\level\\stagelogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\ui\\upgradeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\upgradeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\characters\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\characters\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\characters\\workerbot_ai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\characters\\workerbot_ai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\ui\\worldupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\worldupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\characters\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\characters\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\level\\kitchenui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\level\\kitchenui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\save\\savemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,24 +43,12 @@
       "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\save\\savedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\characters\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\characters\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\characters\\customerspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\characters\\customerspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B1038A0-2EE0-D164-7571-2FA31A5995BA}|Assembly-CSharp-Editor.csproj|c:\\users\\ghowo\\documents\\github\\toweridle\\assets\\editor\\animreplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0B1038A0-2EE0-D164-7571-2FA31A5995BA}|Assembly-CSharp-Editor.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\editor\\animreplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B1038A0-2EE0-D164-7571-2FA31A5995BA}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\editor\\animreplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\characters\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\characters\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\ui\\upgradeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\upgradeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\ui\\registerinterface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -43,20 +59,8 @@
       "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\manager\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\level\\kitchenui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\level\\kitchenui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\ui\\settingsmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\settingsmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\level\\stagelogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\level\\stagelogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\ui\\worldupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\worldupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4FA235B7-BD49-C7C5-FAE6-622418808AD2}|Assembly-CSharp.csproj|C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\assets\\script\\manager\\autoassigncamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -82,37 +86,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AnimReplacer.cs",
-              "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Editor\\AnimReplacer.cs",
-              "RelativeDocumentMoniker": "Assets\\Editor\\AnimReplacer.cs",
-              "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Editor\\AnimReplacer.cs",
-              "RelativeToolTip": "Assets\\Editor\\AnimReplacer.cs",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAwwFsAAAATAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Truc bizarre.cs",
+              "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Truc bizarre.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\Truc bizarre.cs",
+              "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Truc bizarre.cs",
+              "RelativeToolTip": "Assets\\Script\\Truc bizarre.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T22:00:10.13Z",
+              "WhenOpened": "2025-12-21T18:57:18.277Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Customer.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\Customer.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Characters\\Customer.cs",
               "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\Customer.cs",
               "RelativeToolTip": "Assets\\Script\\Characters\\Customer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAD4v0cAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T16:22:54.934Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T16:22:54.934Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "CustomerSpawner.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\CustomerSpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Characters\\CustomerSpawner.cs",
@@ -120,24 +123,23 @@
               "RelativeToolTip": "Assets\\Script\\Characters\\CustomerSpawner.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAAAmwFIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T16:22:51.377Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T16:22:51.377Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 5,
               "Title": "WorldUpgrade.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\UI\\WorldUpgrade.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\UI\\WorldUpgrade.cs",
               "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\UI\\WorldUpgrade.cs",
               "RelativeToolTip": "Assets\\Script\\UI\\WorldUpgrade.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAowBoAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-12T15:07:53.111Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "WorkStation.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Level\\WorkStation.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Level\\WorkStation.cs",
@@ -149,19 +151,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 1,
               "Title": "StageLogic.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Level\\StageLogic.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Level\\StageLogic.cs",
               "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Level\\StageLogic.cs",
               "RelativeToolTip": "Assets\\Script\\Level\\StageLogic.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAmwCwAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAcwIUAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-12T14:53:15.056Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Manager\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Manager\\GameManager.cs",
@@ -173,44 +175,43 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 7,
               "Title": "KitchenUI.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Level\\KitchenUI.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Level\\KitchenUI.cs",
               "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Level\\KitchenUI.cs",
               "RelativeToolTip": "Assets\\Script\\Level\\KitchenUI.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAmwEMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAWwHMAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-12T14:09:15.037Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "UpgradeEntry.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\UI\\UpgradeEntry.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\UI\\UpgradeEntry.cs",
               "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\UI\\UpgradeEntry.cs",
               "RelativeToolTip": "Assets\\Script\\UI\\UpgradeEntry.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAAwLQAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAALUAAAAAAAAAAAAmwMoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-12T14:20:48.539Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "WorkerBot_AI.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\WorkerBot_AI.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Characters\\WorkerBot_AI.cs",
               "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\WorkerBot_AI.cs",
               "RelativeToolTip": "Assets\\Script\\Characters\\WorkerBot_AI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAmwHwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T14:13:34.469Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T14:13:34.469Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "SaveManager.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Save\\SaveManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Save\\SaveManager.cs",
@@ -218,12 +219,11 @@
               "RelativeToolTip": "Assets\\Script\\Save\\SaveManager.cs",
               "ViewState": "AgIAAGAAAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T19:14:04.302Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T19:14:04.302Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
               "Title": "SaveData.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Save\\SaveData.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Save\\SaveData.cs",
@@ -231,12 +231,35 @@
               "RelativeToolTip": "Assets\\Script\\Save\\SaveData.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAmwA4AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T19:13:15.266Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T19:13:15.266Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 3,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\Characters\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Script\\Characters\\PlayerController.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAcwG8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-12T14:10:58.612Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AnimReplacer.cs",
+              "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Editor\\AnimReplacer.cs",
+              "RelativeDocumentMoniker": "Assets\\Editor\\AnimReplacer.cs",
+              "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Editor\\AnimReplacer.cs",
+              "RelativeToolTip": "Assets\\Editor\\AnimReplacer.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAwwFsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T22:00:10.13Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "ProductType.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Level\\ProductType.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Level\\ProductType.cs",
@@ -248,19 +271,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\PlayerController.cs",
-              "RelativeDocumentMoniker": "Assets\\Script\\Characters\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Characters\\PlayerController.cs",
-              "RelativeToolTip": "Assets\\Script\\Characters\\PlayerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T14:10:58.612Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "SettingsMenu.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\UI\\SettingsMenu.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\UI\\SettingsMenu.cs",
@@ -272,7 +283,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "RegisterInterface.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\UI\\RegisterInterface.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\UI\\RegisterInterface.cs",
@@ -284,7 +295,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "CameraAspectRatio.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Manager\\CameraAspectRatio.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Manager\\CameraAspectRatio.cs",
@@ -296,7 +307,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "AutoAssignCamera.cs",
               "DocumentMoniker": "C:\\Users\\ghowo\\Documents\\GitHub\\TowerIdle\\Assets\\Script\\Manager\\AutoAssignCamera.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Manager\\AutoAssignCamera.cs",
